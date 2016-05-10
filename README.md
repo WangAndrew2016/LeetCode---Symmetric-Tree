@@ -59,7 +59,7 @@ public:
         {
             buildRight(root->right, right);
             right.push_back(root->val);
-            buildRight(root->right, right);
+            buildRight(root->left, right);
         }
         
         return;
