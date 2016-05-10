@@ -30,38 +30,20 @@ class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
         
-        if(root = NULL)
+        if(root == NULL)
             return true;
         
-        TreeNode *revertNode = revertFun(root);
-        return compareTree(root, revertNode);
+        return checkSymmetric(root->left, root->right);
         
     }
     
-    TreeNode *revertFun(TreeNode *root)
+    bool checkSymmetric(TreeNode* left, TreeNode* right)
     {
-        if (root == NULL)
-            return NULL;
-            
-        TreeNode *tmp = revertFun(root->left);
-        root->left = revertFun(root->right);
-        root->right = tmp;
-        
-        return root;
-    }
-    
-    bool compareTree(TreeNode* node, TreeNode* revertNode)
-    {
-        if(node == NULL && revertNode == NULL)
+        if(left == NULL && right == NULL)
             return true;
-        else if(node != NULL && revertNode == NULL)
-            return false;
-        else if(node == NULL && revertNode != NULL)
+        if(left == NULL || right == NULL)
             return false;
             
-        if(node->val == revertNode->val && compareTree(node->left, revertNode->left) && compareTree(node->right, revertNode->right))
-            return true;
-        else
-            return false;
+        return (left->val == right->val) && checkSymmetric(left->left, right->right) && checkSymmetric(right->left, left->right);
     }
 };
