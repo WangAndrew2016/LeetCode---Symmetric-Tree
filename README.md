@@ -29,39 +29,39 @@ But the following is not:
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
-        vector<int>left;
-        vector<int>right;
-        buildLeft(root, left);
-        buildRight(root, right);
         
-        if(left == right)
+        if(root = NULL)
+            return true;
+        
+        TreeNode *revertNode = revertFun(root);
+        return compareTree(root, revertNode);
+        
+    }
+    
+    TreeNode *revertFun(TreeNode *root)
+    {
+        if (root == NULL)
+            return NULL;
+            
+        TreeNode *tmp = revertFun(root->left);
+        root->left = revertFun(root->right);
+        root->right = tmp;
+        
+        return root;
+    }
+    
+    bool compareTree(TreeNode* node, TreeNode* revertNode)
+    {
+        if(node == NULL && revertNode == NULL)
+            return true;
+        else if(node != NULL && revertNode == NULL)
+            return false;
+        else if(node == NULL && revertNode != NULL)
+            return false;
+            
+        if(node->val == revertNode->val && compareTree(node->left, revertNode->left) && compareTree(node->right, revertNode->right))
             return true;
         else
             return false;
-        
-    }
-    
-    void buildLeft(TreeNode* root, vector<int>&left)
-    {
-        if(root!=NULL)
-        {
-            buildLeft(root->left, left);
-            left.push_back(root->val);
-            buildLeft(root->right, left);
-        }
-        
-        return;
-    }
-    
-    void buildRight(TreeNode* root, vector<int>&right)
-    {
-        if(root!=NULL)
-        {
-            buildRight(root->right, right);
-            right.push_back(root->val);
-            buildRight(root->left, right);
-        }
-        
-        return;
     }
 };
